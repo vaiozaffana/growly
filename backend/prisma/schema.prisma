@@ -1,0 +1,141 @@
+// Prisma Schema for Growly - Habit Reflection App
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // For Prisma 5.x, this configuration works as-is
+}
+
+// User model
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  habits      Habit[]
+  habitLogs   HabitLog[]
+  reflections Reflection[]
+  reminders   Reminder[]
+  streaks     Streak[]
+
+  @@index([email])
+}
+
+// Habit model
+model Habit {
+  id           String   @id @default(cuid())
+  userId       String
+  templateId   String?
+  name         String
+  description  String   @db.Text
+  category     String
+  icon         String
+  isActive     Boolean  @default(true)
+  reminderTime String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs        HabitLog[]
+  reflections Reflection[]
+  reminders   Reminder[]
+  streaks     Streak[]
+
+  @@index([userId])
+  @@index([category])
+}
+
+// Habit Log - records when a habit is completed
+model HabitLog {
+  id          String   @id @default(cuid())
+  habitId     String
+  userId      String
+  completedAt DateTime @default(now())
+  reflection  String?  @db.Text
+  mood        String?  // 'great', 'good', 'neutral', 'bad', 'terrible'
+  notes       String?  @db.Text
+
+  // Relations
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([habitId])
+  @@index([userId])
+  @@index([completedAt])
+}
+
+// Reflection model - stores AI conversation reflections
+model Reflection {
+  id         String   @id @default(cuid())
+  userId     String
+  habitId    String?
+  content    String   @db.Text
+  aiResponse String?  @db.Text
+  mood       String?
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habit Habit? @relation(fields: [habitId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([habitId])
+  @@index([createdAt])
+}
+
+// Reminder model
+model Reminder {
+  id       String  @id @default(cuid())
+  habitId  String
+  userId   String
+  time     String  // HH:mm format
+  isActive Boolean @default(true)
+  days     String  // JSON array of days [0-6]
+
+  // Relations
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([habitId])
+  @@index([userId])
+}
+
+// Streak model - tracks habit streaks
+model Streak {
+  id              String   @id @default(cuid())
+  habitId         String
+  userId          String
+  currentStreak   Int      @default(0)
+  longestStreak   Int      @default(0)
+  lastCompletedAt DateTime?
+
+  // Relations
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([habitId, userId])
+  @@index([userId])
+}
+
+// Chat History - for AI conversations
+model ChatHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  role         String   // 'user' or 'assistant'
+  content      String   @db.Text
+  habitContext String?
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}

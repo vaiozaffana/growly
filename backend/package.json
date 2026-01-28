@@ -1,0 +1,30 @@
+{
+  "name": "growly-backend",
+  "version": "1.0.0",
+  "description": "Growly API - Habit Reflection Backend with Elysia.js",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "db:generate": "bunx prisma generate",
+    "db:push": "bunx prisma db push",
+    "db:migrate": "bunx prisma migrate dev",
+    "db:studio": "bunx prisma studio",
+    "db:seed": "bun run src/seed.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.0.2",
+    "@elysiajs/jwt": "^1.0.2",
+    "@elysiajs/swagger": "^1.0.5",
+    "@prisma/client": "^5.10.2",
+    "elysia": "^1.0.12",
+    "@google/generative-ai": "^0.2.1",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "bun-types": "latest",
+    "prisma": "^5.10.2"
+  },
+  "module": "src/index.ts",
+  "type": "module"
+}

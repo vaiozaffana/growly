@@ -27,7 +27,6 @@ import { id } from 'date-fns/locale';
 
 const MINIMUM_HABITS = 3;
 
-// Motivational quotes for after completing habits
 const MOTIVATIONAL_QUOTES = [
   "Percayalah, setiap satu kebiasaan akan menjadikan karakter yang lebih baik kedepannya.",
   "Langkah kecil hari ini adalah lompatan besar untuk masa depanmu.",

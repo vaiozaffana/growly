@@ -7,7 +7,7 @@ import { useAuthStore, useAppStore } from './src/store';
 import { notificationService } from './src/services/notifications';
 import { ThemeProvider } from './src/contexts';
 
-import './global.css';
+import './src/styles/global.css';
 
 export default function App() {
   const { setLoading } = useAuthStore();
@@ -30,6 +30,9 @@ export default function App() {
         //     login(profile.data, token);
         //   }
         // }
+        
+        // Minimum wait time for splash screen animation to finish
+        await new Promise(resolve => setTimeout(resolve, 3000));
       } catch (error) {
         console.error('Failed to initialize app:', error);
       } finally {

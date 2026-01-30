@@ -9,6 +9,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { LandingScreen, LoginScreen, RegisterScreen } from '../screens/auth';
 import { DashboardScreen, CalendarScreen, ChatScreen, ProfileScreen } from '../screens/main';
+import { SplashScreen } from '../screens/SplashScreen';
 import { useTheme } from '../contexts';
 import { useAuthStore } from '../store';
 import { RootStackParamList, MainTabParamList } from '../types';
@@ -151,14 +152,8 @@ export const AppNavigator: React.FC = () => {
   const { colors } = useTheme();
 
   if (isLoading) {
-    // Show splash screen or loading indicator
-    return (
-      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <Animatable.View animation="pulse" iterationCount="infinite">
-          <Ionicons name="leaf" size={60} color={colors.primary} />
-        </Animatable.View>
-      </View>
-    );
+    // Show custom splash screen
+    return <SplashScreen />;
   }
 
   return (

@@ -34,21 +34,6 @@ Dibuat dengan 💚 untuk membantu kamu membangun kebiasaan sehat dan berkembang 
 
 ---
 
-## 📸 Screenshots
-
-### Light Mode
-![Dashboard](./docs/screenshots/dashboard-light.png)
-![Chat](./docs/screenshots/chat-light.png)
-
-### Dark Mode  
-![Dashboard Dark](./docs/screenshots/dashboard-dark.png)
-![Profile Dark](./docs/screenshots/profile-dark.png)
-
-### Celebration
-![Streak Celebration](./docs/screenshots/streak-celebration.png)
-
----
-
 ## 🗺️ Roadmap
 
 ### Upcoming Features

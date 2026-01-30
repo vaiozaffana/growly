@@ -46,7 +46,6 @@ export const useTheme = (): ThemeContextType => {
   return context;
 };
 
-// Hook for getting colors directly
 export const useColors = () => {
   const { colors } = useTheme();
   return colors;

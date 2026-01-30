@@ -12,27 +12,22 @@ import {
   ApiResponse,
 } from '../types';
 
-// Fungsi untuk mendeteksi API URL yang tepat
 const getApiUrl = (): string => {
-  // 1. Cek environment variable dulu
+
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
 
-  // 2. Cek apakah running di Expo Go (device fisik)
   const isExpoGo = Constants.appOwnership === 'expo';
-  
-  // 3. Cek debuggerHost untuk mendapatkan IP development machine
+
   const debuggerHost = Constants.expoConfig?.hostUri || Constants.manifest?.debuggerHost;
   
   if (debuggerHost) {
-    // debuggerHost format: "192.168.1.100:8081" - ambil IP saja
     const hostIP = debuggerHost.split(':')[0];
     console.log('[API] Detected host IP:', hostIP);
     return `http://${hostIP}:3000`;
   }
 
-  // 4. Fallback berdasarkan platform
   if (Platform.OS === 'android') {
     return 'http://10.0.2.2:3000'; // Android Emulator
   } else if (Platform.OS === 'ios') {
@@ -59,7 +54,6 @@ class ApiService {
       },
     });
 
-    // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
         const fullUrl = `${config.baseURL}${config.url}`;
@@ -78,7 +72,6 @@ class ApiService {
       }
     );
 
-    // Response interceptor
     this.client.interceptors.response.use(
       (response) => {
         console.log(`[API] Response ${response.status}:`, JSON.stringify(response.data).substring(0, 200));
@@ -107,7 +100,6 @@ class ApiService {
     return API_BASE_URL;
   }
 
-  // Auth endpoints
   async login(credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> {
     try {
       const response = await this.client.post('/auth/login', credentials);
@@ -171,7 +163,6 @@ class ApiService {
     }
   }
 
-  // Habit endpoints
   async getHabits(): Promise<ApiResponse<Habit[]>> {
     try {
       const response = await this.client.get('/habits');
@@ -217,7 +208,6 @@ class ApiService {
     }
   }
 
-  // Habit Log endpoints
   async logHabit(habitId: string, data: Partial<HabitLog>): Promise<ApiResponse<HabitLog>> {
     try {
       const response = await this.client.post(`/habits/${habitId}/log`, data);
@@ -259,7 +249,6 @@ class ApiService {
     }
   }
 
-  // Reflection endpoints
   async getReflections(habitId?: string): Promise<ApiResponse<Reflection[]>> {
     try {
       const url = habitId ? `/reflections?habitId=${habitId}` : '/reflections';
@@ -285,7 +274,6 @@ class ApiService {
     }
   }
 
-  // AI Chat endpoint
   async sendChatMessage(message: string, habitContext?: string): Promise<ApiResponse<{ response: string }>> {
     try {
       const response = await this.client.post('/ai/chat', { 
@@ -301,7 +289,6 @@ class ApiService {
     }
   }
 
-  // Get chat history from API (filtered by user on backend)
   async getChatHistory(habitContext?: string, limit?: number): Promise<ApiResponse<any[]>> {
     try {
       const params = new URLSearchParams();
@@ -319,7 +306,6 @@ class ApiService {
     }
   }
 
-  // Clear chat history
   async clearChatHistory(): Promise<ApiResponse<void>> {
     try {
       const response = await this.client.delete('/ai/history');
@@ -329,7 +315,6 @@ class ApiService {
     }
   }
 
-  // Stats endpoint
   async getStats(): Promise<ApiResponse<any>> {
     try {
       const response = await this.client.get('/stats');
@@ -342,7 +327,6 @@ class ApiService {
     }
   }
 
-  // Calendar data
   async getCalendarData(month: number, year: number): Promise<ApiResponse<any>> {
     try {
       const response = await this.client.get(`/calendar?month=${month}&year=${year}`);
@@ -355,7 +339,6 @@ class ApiService {
     }
   }
 
-  // Test connection
   async testConnection(): Promise<boolean> {
     try {
       const response = await this.client.get('/');

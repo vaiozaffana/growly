@@ -83,7 +83,6 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({
         style,
       ]}
     >
-      {/* Fire Icon */}
       {showFireAnimation && count > 0 && (
         <Animatable.View
           animation="pulse"
@@ -95,7 +94,6 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({
         </Animatable.View>
       )}
 
-      {/* Count */}
       <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
         <Text
           style={{
@@ -108,7 +106,6 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({
         </Text>
       </Animated.View>
 
-      {/* Label */}
       <Text
         style={{
           fontSize: size === 'sm' ? 12 : 14,
@@ -119,7 +116,6 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({
         {label}
       </Text>
 
-      {/* Streak Message */}
       <Text
         style={{
           fontSize: size === 'sm' ? 12 : 14,

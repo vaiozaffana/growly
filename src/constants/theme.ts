@@ -1,6 +1,3 @@
-// Growly Color Palette - Fresh, Playful, Modern
-
-// Light Theme Colors - Warm & Energetic
 export const LIGHT_COLORS = {
   // Primary Colors - Coral/Salmon (Energetic & Warm)
   primary: '#FF6B6B',
@@ -59,7 +56,6 @@ export const LIGHT_COLORS = {
   cardBg4: '#F8F5FF',
 };
 
-// Dark Theme Colors - Cozy & Modern
 export const DARK_COLORS = {
   // Primary Colors
   primary: '#FF8080',
@@ -118,10 +114,8 @@ export const DARK_COLORS = {
   cardBg4: '#2A2035',
 };
 
-// Default export (light theme for backwards compatibility)
 export const COLORS = LIGHT_COLORS;
 
-// Function to get colors based on theme
 export const getColors = (isDarkMode: boolean) => {
   return isDarkMode ? DARK_COLORS : LIGHT_COLORS;
 };
@@ -134,7 +128,6 @@ export const FONTS = {
 };
 
 export const SIZES = {
-  // Spacing
   xs: 4,
   sm: 8,
   md: 16,
@@ -142,7 +135,6 @@ export const SIZES = {
   xl: 32,
   xxl: 48,
   
-  // Font Sizes
   fontXs: 12,
   fontSm: 14,
   fontMd: 16,
@@ -151,8 +143,7 @@ export const SIZES = {
   font2xl: 24,
   font3xl: 30,
   font4xl: 36,
-  
-  // Border Radius
+ 
   radiusSm: 8,
   radiusMd: 12,
   radiusLg: 16,

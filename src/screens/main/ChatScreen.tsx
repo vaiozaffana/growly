@@ -65,19 +65,15 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
   const scrollViewRef = useRef<ScrollView>(null);
   const inputRef = useRef<TextInput>(null);
 
-  // Fetch chat history from API for the current user
   const fetchChatHistory = useCallback(async () => {
     try {
       setInitialLoading(true);
-      
-      // Clear local messages first to prevent showing old user's data
+
       clearChat();
       
-      // Fetch chat history from backend (which filters by userId)
       const response = await apiService.getChatHistory(habitId);
       
       if (response.success && response.data) {
-        // Convert API response to ChatMessage format
         const chatMessages: ChatMessage[] = response.data.map((msg: any) => ({
           id: msg.id,
           role: msg.role as 'user' | 'assistant',
@@ -96,7 +92,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
     }
   }, [habitId, clearChat, setMessages]);
 
-  // Add welcome message if no chat history
   const addWelcomeMessage = useCallback(() => {
     if (habitId) {
       const habit = getHabitById(habitId);
@@ -125,7 +120,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
     fetchChatHistory();
   }, [fetchChatHistory]);
 
-  // Add welcome message after fetch if no messages
   useEffect(() => {
     if (!initialLoading && messages.length === 0 && !hasProcessedInitialMessage) {
       addWelcomeMessage();
@@ -138,16 +132,13 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
     }
   }, [habitId, setHabitContext]);
 
-  // Handle initial message from Dashboard (habit selection + reflection)
   useEffect(() => {
     const processInitialMessage = async () => {
       if (initialMessage && habitContext && !hasProcessedInitialMessage) {
         setHasProcessedInitialMessage(true);
         
-        // Clear existing messages and show context
         clearChat();
         
-        // Create user context message (summary of what user selected)
         const habitNames = habitContext.selectedHabits.map((h: any) => h.name).join(', ');
         const userContextMessage: ChatMessage = {
           id: Date.now().toString(),
@@ -159,13 +150,11 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
         
         setLoading(true);
         
-        // Scroll to show the user message
         setTimeout(() => {
           scrollViewRef.current?.scrollToEnd({ animated: true });
         }, 100);
         
         try {
-          // Send to AI for analysis
           const response = await apiService.sendChatMessage(initialMessage, undefined);
           
           if (response.success && response.data) {
@@ -177,7 +166,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
             };
             addMessage(aiMessage);
             
-            // Save reflection to backend
             try {
               await apiService.createReflection({
                 content: habitContext.reflection,
@@ -189,7 +177,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
               console.error('Error saving reflection to backend:', reflectionError);
             }
             
-            // Save reflection to local store
             addReflection({
               id: Date.now().toString(),
               userId: '1',
@@ -199,14 +186,12 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
               createdAt: new Date().toISOString(),
             });
             
-            // Fetch and show streak celebration
             try {
               const statsResponse = await apiService.getStats();
               if (statsResponse.success && statsResponse.data) {
                 const streak = statsResponse.data.currentStreak || 0;
                 if (streak > 0) {
                   setCurrentStreak(streak);
-                  // Delay celebration untuk membiarkan user melihat respons AI dulu
                   setTimeout(() => {
                     setShowStreakCelebration(true);
                   }, 800);
@@ -261,13 +246,11 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
     setInputText('');
     setLoading(true);
 
-    // Scroll to bottom
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     }, 100);
 
     try {
-      // Call AI API
       const response = await apiService.sendChatMessage(messageContent, habitId);
       
       if (response.success && response.data) {
@@ -281,7 +264,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
 
         addMessage(aiMessage);
 
-        // Save reflection
         addReflection({
           id: Date.now().toString(),
           userId: '1',
@@ -291,7 +273,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
           createdAt: new Date().toISOString(),
         });
       } else {
-        // Show error message
         const errorMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
@@ -321,7 +302,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
 
   const handleClearChat = () => {
     clearChat();
-    // Re-add welcome message
     const welcomeMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'assistant',
@@ -515,7 +495,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
       >
-        {/* Modern Header */}
         <LinearGradient
           colors={isDarkMode 
             ? ['#2D1B4E', '#1E3A5F'] 
@@ -580,7 +559,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
           </TouchableOpacity>
         </LinearGradient>
 
-        {/* Messages */}
         <ScrollView
           ref={scrollViewRef}
           contentContainerStyle={{ paddingVertical: 16, flexGrow: 1 }}
@@ -591,7 +569,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
           {isLoading && renderTypingIndicator()}
         </ScrollView>
 
-        {/* Quick Prompts */}
         {messages.length <= 2 && quickPrompts.length > 0 && (
           <Animatable.View
             animation="fadeInUp"
@@ -630,7 +607,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
           </Animatable.View>
         )}
 
-        {/* Input - dengan padding untuk floating tab bar */}
         <View
           style={{
             flexDirection: 'row',
@@ -708,7 +684,6 @@ export const ChatScreen: React.FC<{ route?: any; navigation?: any }> = ({ route,
         </View>
       </KeyboardAvoidingView>
       
-      {/* Streak Celebration Modal */}
       <StreakCelebration
         visible={showStreakCelebration}
         streak={currentStreak}

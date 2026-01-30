@@ -63,7 +63,6 @@ export const statsRoutes = new Elysia({ prefix: '/stats' })
     let currentStreak = 0;
     let longestStreak = 0;
     
-    // Helper function to get date only (no time)
     const getDateOnly = (date: Date) => {
       const d = new Date(date);
       d.setHours(0, 0, 0, 0);

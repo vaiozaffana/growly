@@ -3,7 +3,6 @@ import { jwt } from '@elysiajs/jwt';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import prisma from '../lib/prisma';
 
-// Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
 
 const SYSTEM_PROMPT = `Kamu adalah Growly, asisten AI yang membantu pengguna dalam perjalanan pengembangan kebiasaan sehat dan beretika. 
@@ -44,7 +43,6 @@ async function getUserFromToken(headers: any, jwt: any) {
   return payload.userId as string;
 }
 
-// Fallback responses when AI is not available
 const FALLBACK_RESPONSES = [
   "Terima kasih sudah berbagi! Refleksi yang mendalam seperti ini sangat berharga untuk pertumbuhanmu. Apa yang menurutmu menjadi pemicu utama keberhasilanmu hari ini? 🌱",
   "Menarik sekali! Aku melihat kamu benar-benar berkomitmen pada perjalanan ini. Bagaimana perasaanmu sekarang dibandingkan dengan saat pertama kali memulai? ✨",
@@ -61,7 +59,6 @@ export const aiRoutes = new Elysia({ prefix: '/ai' })
     secret: process.env.JWT_SECRET || 'super-secret-key',
   }))
   
-  // Chat with AI
   .post('/chat', async ({ body, headers, jwt, set }) => {
     const userId = await getUserFromToken(headers, jwt);
     
@@ -72,14 +69,12 @@ export const aiRoutes = new Elysia({ prefix: '/ai' })
     
     const { message, habitContext } = body;
     
-    // Get user's recent chat history
     const recentChats = await prisma.chatHistory.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
       take: 10,
     });
     
-    // Get habit info if context provided
     let habitInfo = '';
     if (habitContext) {
       const habit = await prisma.habit.findFirst({
@@ -90,7 +85,6 @@ export const aiRoutes = new Elysia({ prefix: '/ai' })
       }
     }
     
-    // Save user message
     await prisma.chatHistory.create({
       data: {
         userId,
@@ -103,11 +97,9 @@ export const aiRoutes = new Elysia({ prefix: '/ai' })
     let aiResponse: string;
     
     try {
-      // Try to use Gemini AI
       if (process.env.GOOGLE_AI_API_KEY) {
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
         
-        // Build conversation history
         const history = recentChats
           .reverse()
           .map(chat => `${chat.role === 'user' ? 'User' : 'Growly'}: ${chat.content}`)
@@ -126,16 +118,13 @@ Growly:`;
         const response = await result.response;
         aiResponse = response.text();
       } else {
-        // Use fallback response
         aiResponse = FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
       }
     } catch (error) {
       console.error('AI error:', error);
-      // Use fallback response on error
       aiResponse = FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
     }
     
-    // Save AI response
     await prisma.chatHistory.create({
       data: {
         userId,
@@ -145,7 +134,6 @@ Growly:`;
       },
     });
     
-    // Create reflection record
     await prisma.reflection.create({
       data: {
         userId,
@@ -172,7 +160,6 @@ Growly:`;
     },
   })
   
-  // Get chat history
   .get('/history', async ({ query, headers, jwt, set }) => {
     const userId = await getUserFromToken(headers, jwt);
     
@@ -205,7 +192,6 @@ Growly:`;
     },
   })
   
-  // Clear chat history
   .delete('/history', async ({ headers, jwt, set }) => {
     const userId = await getUserFromToken(headers, jwt);
     

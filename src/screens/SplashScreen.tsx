@@ -11,7 +11,6 @@ export const SplashScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Background Gradient */}
       <LinearGradient
         colors={[colors.primary, colors.accentPurple]}
         start={{ x: 0, y: 0 }}
@@ -19,11 +18,9 @@ export const SplashScreen: React.FC = () => {
         style={StyleSheet.absoluteFill}
       />
       
-      {/* Decorative Circles */}
       <View style={[styles.circle, { top: -100, right: -50, width: 300, height: 300, opacity: 0.1 }]} />
       <View style={[styles.circle, { bottom: -50, left: -50, width: 200, height: 200, opacity: 0.1 }]} />
       
-      {/* Animated Logo Container */}
       <Animatable.View 
         animation="bounceIn" 
         duration={2000} 
@@ -37,7 +34,6 @@ export const SplashScreen: React.FC = () => {
         />
       </Animatable.View>
       
-      {/* Animated Text */}
       <Animatable.View 
         animation="fadeInUp" 
         delay={800} 
@@ -49,7 +45,6 @@ export const SplashScreen: React.FC = () => {
         <Text style={styles.subtitle}>Tumbuh Bersama, Bahagia Bersama</Text>
       </Animatable.View>
 
-       {/* Loading Indicator */}
        <Animatable.View 
         animation="pulse" 
         easing="ease-out" 

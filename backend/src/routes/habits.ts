@@ -1,8 +1,6 @@
 import { Elysia, t } from 'elysia';
 import { jwt } from '@elysiajs/jwt';
 import prisma from '../lib/prisma';
-
-// Middleware to get user from token
 async function getUserFromToken(headers: any, jwt: any) {
   const authorization = headers.authorization;
   
@@ -209,7 +207,6 @@ export const habitRoutes = new Elysia({ prefix: '/habits' })
     },
   })
   
-  // Log habit completion
   .post('/:id/log', async ({ params, body, headers, jwt, set }) => {
     const userId = await getUserFromToken(headers, jwt);
     
@@ -227,7 +224,6 @@ export const habitRoutes = new Elysia({ prefix: '/habits' })
       return { success: false, error: 'Habit not found' };
     }
     
-    // Create log
     const log = await prisma.habitLog.create({
       data: {
         habitId: params.id,
@@ -236,7 +232,6 @@ export const habitRoutes = new Elysia({ prefix: '/habits' })
       },
     });
     
-    // Update streak
     const streak = await prisma.streak.findFirst({
       where: { habitId: params.id, userId },
     });
@@ -246,7 +241,6 @@ export const habitRoutes = new Elysia({ prefix: '/habits' })
       const lastCompleted = streak.lastCompletedAt;
       let newCurrentStreak = streak.currentStreak;
       
-      // Helper function to get date only (no time)
       const getDateOnly = (date: Date) => {
         const d = new Date(date);
         d.setHours(0, 0, 0, 0);
@@ -258,12 +252,10 @@ export const habitRoutes = new Elysia({ prefix: '/habits' })
       if (lastCompleted) {
         const lastCompletedDate = getDateOnly(lastCompleted);
         
-        // Calculate difference in days
         const timeDiff = todayDate.getTime() - lastCompletedDate.getTime();
         const daysDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
         
         if (daysDiff === 0) {
-          // Same day - don't increase streak, just update timestamp
           // Streak stays the same
         } else if (daysDiff === 1) {
           // Consecutive day - increase streak

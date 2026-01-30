@@ -11,7 +11,6 @@ import { statsRoutes } from './routes/stats';
 import { calendarRoutes } from './routes/calendar';
 
 const app = new Elysia()
-  // Plugins
   .use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
@@ -40,7 +39,6 @@ const app = new Elysia()
     },
   }))
   
-  // Health check
   .get('/', () => ({
     name: 'Growly API',
     version: '1.0.0',
@@ -84,7 +82,6 @@ const app = new Elysia()
     };
   })
   
-  // Start server
   .listen(process.env.PORT || 3000);
 
 console.log(`🌱 Growly API is running at ${app.server?.hostname}:${app.server?.port}`);

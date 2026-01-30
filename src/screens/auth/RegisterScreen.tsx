@@ -77,14 +77,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
     
     setIsLoading(true);
     try {
-      // Call the actual API
       const response = await apiService.register({ name, email, password });
       
       if (response.success && response.data) {
-        // Set token for future API calls
+
         apiService.setToken(response.data.token);
         
-        // Login with user data from API
         login(response.data.user, response.data.token);
         
         Alert.alert('Berhasil', 'Akun berhasil dibuat! Selamat datang di Growly.');
@@ -119,7 +117,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
-            {/* Back Button */}
             <Animatable.View animation="fadeIn" style={{ marginTop: 16 }}>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
@@ -136,7 +133,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
               </TouchableOpacity>
             </Animatable.View>
 
-            {/* Header */}
             <Animatable.View
               animation="fadeInDown"
               style={{ marginTop: 24, marginBottom: 32 }}
@@ -162,7 +158,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
               </Text>
             </Animatable.View>
 
-            {/* Form */}
             <Animatable.View animation="fadeInUp" delay={200}>
               <Input
                 label="Nama Lengkap"
@@ -220,8 +215,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
                 isPassword
                 autoComplete="new-password"
               />
-
-              {/* Password Requirements */}
               <View style={{ marginBottom: 24, marginTop: -8 }}>
                 <Text style={{ fontSize: 12, color: colors.textLight, marginBottom: 4 }}>
                   Kata sandi harus:
@@ -257,7 +250,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
               />
             </Animatable.View>
 
-            {/* Terms */}
             <Animatable.View
               animation="fadeIn"
               delay={400}
@@ -279,7 +271,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
               </Text>
             </Animatable.View>
 
-            {/* Login Link */}
             <Animatable.View
               animation="fadeIn"
               delay={500}

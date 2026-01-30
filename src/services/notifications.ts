@@ -2,7 +2,6 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { Reminder } from '../types';
 
-// Configure notification handler
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -90,7 +89,7 @@ class NotificationService {
         data: { type: 'celebration' },
         sound: true,
       },
-      trigger: null, // Immediate notification
+      trigger: null, 
     });
   }
 
@@ -144,15 +143,12 @@ class NotificationService {
   async getScheduledReminders(): Promise<Notifications.NotificationRequest[]> {
     return await Notifications.getAllScheduledNotificationsAsync();
   }
-
-  // Listen for notification responses
   addNotificationResponseListener(
     callback: (response: Notifications.NotificationResponse) => void
   ) {
     return Notifications.addNotificationResponseReceivedListener(callback);
   }
 
-  // Listen for incoming notifications while app is foregrounded
   addNotificationReceivedListener(
     callback: (notification: Notifications.Notification) => void
   ) {

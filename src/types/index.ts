@@ -1,4 +1,3 @@
-// User Types
 export interface User {
   id: string;
   name: string;
@@ -8,7 +7,6 @@ export interface User {
   updatedAt: string;
 }
 
-// Habit Types
 export interface Habit {
   id: string;
   userId: string;
@@ -39,8 +37,6 @@ export interface Streak {
   longestStreak: number;
   lastCompletedAt?: string;
 }
-
-// Reflection Types
 export interface Reflection {
   id: string;
   userId: string;
@@ -59,7 +55,6 @@ export interface ChatMessage {
   habitContext?: string;
 }
 
-// Calendar Types
 export interface CalendarDay {
   date: string;
   completed: boolean;
@@ -67,7 +62,6 @@ export interface CalendarDay {
   mood?: string;
 }
 
-// API Response Types
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -91,7 +85,6 @@ export interface RegisterCredentials {
   password: string;
 }
 
-// Notification Types
 export interface Reminder {
   id: string;
   habitId: string;
@@ -100,7 +93,6 @@ export interface Reminder {
   days: number[]; // 0-6 for Sunday-Saturday
 }
 
-// Stats Types
 export interface UserStats {
   totalHabits: number;
   completedToday: number;
@@ -110,7 +102,6 @@ export interface UserStats {
   weeklyProgress: number[];
 }
 
-// Navigation Types
 export type RootStackParamList = {
   Landing: undefined;
   Login: undefined;

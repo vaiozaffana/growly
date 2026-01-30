@@ -84,7 +84,6 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
           weeklyProgress: statsResponse.data.weeklyProgress || [0, 0, 0, 0, 0, 0, 0],
         });
         
-        // Check if user has completed habits today
         if (statsResponse.data.completedToday > 0) {
           setHasCompletedToday(true);
           if (!motivationalQuote) {
@@ -93,7 +92,6 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
         }
       }
       
-      // Also fetch user habits
       const habitsResponse = await apiService.getHabits();
       if (habitsResponse.success && habitsResponse.data) {
         setHabits(habitsResponse.data);
@@ -103,7 +101,6 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
     }
   }, [setStats, setHabits, motivationalQuote]);
 
-  // Initial load
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
@@ -113,7 +110,6 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
     loadData();
   }, [fetchStats]);
 
-  // Refresh when screen is focused (e.g., returning from ChatScreen)
   useFocusEffect(
     useCallback(() => {
       fetchStats();
@@ -159,11 +155,9 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
     try {
       const selectedHabitObjects = getSelectedHabitObjects();
       
-      // Create habits in backend and log completion
       const createdHabitIds: string[] = [];
       for (const habitTemplate of selectedHabitObjects) {
         try {
-          // Create habit in backend
           const habitResponse = await apiService.createHabit({
             templateId: habitTemplate.id,
             name: habitTemplate.name,
@@ -178,7 +172,6 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
             createdHabitIds.push(createdHabit.id);
             addHabit(createdHabit);
 
-            // Log habit completion with reflection
             await apiService.logHabit(createdHabit.id, {
               reflection: reflectionText,
               mood: 'good',
@@ -211,11 +204,9 @@ Berdasarkan pilihan kebiasaan dan refleksi di atas, berikan analisis yang mendal
         },
       });
 
-      // Mark as completed today and set motivational quote
       setHasCompletedToday(true);
       setMotivationalQuote(getRandomQuote());
 
-      // Refresh stats after logging habits
       fetchStats();
 
       setSelectedHabits([]);
@@ -325,7 +316,6 @@ Berdasarkan pilihan kebiasaan dan refleksi di atas, berikan analisis yang mendal
                 </TouchableOpacity>
               </View>
 
-              {/* Progress Ring */}
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -406,7 +396,6 @@ Berdasarkan pilihan kebiasaan dan refleksi di atas, berikan analisis yang mendal
               marginHorizontal: 16,
             }}
           >
-            {/* Stats Cards - Bento Box Style */}
             <View style={{ flexDirection: 'row', gap: 12 }}>
               {/* Streak Card */}
               <View style={{
@@ -443,7 +432,6 @@ Berdasarkan pilihan kebiasaan dan refleksi di atas, berikan analisis yang mendal
                 </Text>
               </View>
               
-              {/* Best Streak Card */}
               <View style={{
                 flex: 1,
                 backgroundColor: colors.surface,
@@ -478,7 +466,6 @@ Berdasarkan pilihan kebiasaan dan refleksi di atas, berikan analisis yang mendal
                 </Text>
               </View>
               
-              {/* Reflections Card */}
               <View style={{
                 flex: 1,
                 backgroundColor: colors.surface,

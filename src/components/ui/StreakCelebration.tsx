@@ -45,13 +45,10 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
 
   useEffect(() => {
     if (visible) {
-      // Play Lottie animation when visible
       lottieRef.current?.play();
       
-      // Trigger haptic feedback
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       
-      // Auto close after animation
       const timer = setTimeout(() => {
         onAnimationEnd();
       }, 3500);
@@ -109,7 +106,6 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
             duration={800}
             style={styles.container}
           >
-            {/* Lottie Fire Animation */}
             <View style={styles.lottieContainer}>
               <LottieView
                 ref={lottieRef}
@@ -121,7 +117,6 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
               />
             </View>
 
-            {/* Streak Number */}
             <Animatable.View
               animation={slideUpFade}
             delay={400}
@@ -144,7 +139,6 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
             </Text>
           </Animatable.View>
 
-          {/* Message Card */}
           <Animatable.View
             animation={slideUpFade}
             delay={700}
@@ -184,7 +178,6 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
             </Text>
           </Animatable.View>
 
-            {/* Floating particles */}
             {[...Array(6)].map((_, index) => (
               <Animatable.View
                 key={index}
@@ -206,7 +199,6 @@ export const StreakCelebration: React.FC<StreakCelebrationProps> = ({
             ))}
           </Animatable.View>
           
-          {/* Tap to dismiss hint */}
           <Animatable.Text
             animation="fadeIn"
             delay={2500}

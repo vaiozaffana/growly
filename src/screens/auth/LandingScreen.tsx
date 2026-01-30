@@ -62,9 +62,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Hero Section */}
           <View style={{ alignItems: 'center', paddingTop: 48, paddingHorizontal: 24 }}>
-            {/* Logo */}
             <Animatable.View
               animation="bounceIn"
               duration={1000}
@@ -94,7 +92,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
               </LinearGradient>
             </Animatable.View>
 
-            {/* Title */}
             <Animatable.Text
               animation="fadeInDown"
               delay={300}
@@ -109,7 +106,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
               Growly
             </Animatable.Text>
 
-            {/* Tagline */}
             <Animatable.Text
               animation="fadeInDown"
               delay={500}
@@ -126,7 +122,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
             </Animatable.Text>
           </View>
 
-          {/* Features Section */}
           <View style={{ paddingHorizontal: 24, marginTop: 52 }}>
             <Animatable.Text
               animation="fadeIn"
@@ -198,7 +193,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
             ))}
           </View>
 
-          {/* CTA Section */}
           <View style={{ paddingHorizontal: 24, marginTop: 44 }}>
             <Animatable.View animation="fadeInUp" delay={1400}>
               <Button
@@ -221,7 +215,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ navigation }) => {
             </Animatable.View>
           </View>
 
-          {/* Footer */}
           <Animatable.View
             animation="fadeIn"
             delay={1600}

@@ -31,7 +31,6 @@ export const CalendarScreen: React.FC = () => {
   const [totalHabitsFromBackend, setTotalHabitsFromBackend] = useState(0);
   const { todayCompleted, habits } = useHabitStore();
 
-  // Fetch calendar data from API
   const fetchCalendarData = useCallback(async () => {
     try {
       setLoading(true);
@@ -41,7 +40,6 @@ export const CalendarScreen: React.FC = () => {
       const response = await apiService.getCalendarData(month, year);
       
       if (response.success && response.data) {
-        // Backend returns { days: {...}, totalHabits: N, month, year }
         setCalendarData(response.data.days || {});
         setTotalHabitsFromBackend(response.data.totalHabits || 0);
       }
@@ -56,7 +54,6 @@ export const CalendarScreen: React.FC = () => {
     fetchCalendarData();
   }, [fetchCalendarData]);
 
-  // Refresh when screen is focused
   useFocusEffect(
     useCallback(() => {
       fetchCalendarData();
@@ -70,15 +67,12 @@ export const CalendarScreen: React.FC = () => {
     setRefreshing(false);
   }, [fetchCalendarData]);
 
-  // Merge API data with today's local data
   const completedDates = useMemo(() => {
     const dates: CalendarData = { ...calendarData };
     const todayStr = format(new Date(), 'yyyy-MM-dd');
     
-    // Use total habits from backend, fallback to local habits count or default
     const totalHabits = totalHabitsFromBackend || habits.length || 8;
     
-    // Update today's data with local state if we have any local completions
     if (todayCompleted.length > 0 || !dates[todayStr]) {
       dates[todayStr] = {
         completed: dates[todayStr]?.completed || todayCompleted.length,
@@ -87,7 +81,6 @@ export const CalendarScreen: React.FC = () => {
       };
     }
     
-    // Ensure all dates have correct total
     Object.keys(dates).forEach(date => {
       if (dates[date].total === 0) {
         dates[date].total = totalHabits;
@@ -130,7 +123,6 @@ export const CalendarScreen: React.FC = () => {
       };
     });
     
-    // Mark selected date if not in completedDates
     if (!marks[selectedDate]) {
       marks[selectedDate] = {
         customStyles: {
@@ -152,7 +144,6 @@ export const CalendarScreen: React.FC = () => {
   const selectedDayData = completedDates[selectedDate];
   const formattedSelectedDate = format(new Date(selectedDate), 'EEEE, d MMMM yyyy', { locale: id });
 
-  // Calculate monthly statistics
   const monthlyStats = useMemo(() => {
     const daysWithData = Object.keys(completedDates).length;
     const totalCompleted = Object.values(completedDates).reduce(
@@ -176,10 +167,8 @@ export const CalendarScreen: React.FC = () => {
     };
   }, [completedDates]);
 
-  // Calculate weekly statistics (current week: Monday to Sunday)
   const weeklyStats = useMemo(() => {
     const today = new Date();
-    // Get start of current week (Monday)
     const weekStart = startOfWeek(today, { weekStartsOn: 1 });
     
     const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
@@ -188,14 +177,12 @@ export const CalendarScreen: React.FC = () => {
       const dayDate = addDays(weekStart, index);
       const dateStr = format(dayDate, 'yyyy-MM-dd');
       const dayData = completedDates[dateStr];
-      
-      // Calculate completion rate for this day
+
       let completionRate = 0;
       if (dayData && dayData.total > 0) {
         completionRate = dayData.completed / dayData.total;
       }
       
-      // Check if this day is in the future
       const isFuture = dayDate > today;
       const isToday = format(today, 'yyyy-MM-dd') === dateStr;
       
@@ -234,7 +221,6 @@ export const CalendarScreen: React.FC = () => {
           />
         }
       >
-        {/* Header with Gradient */}
         <LinearGradient
           colors={isDarkMode 
             ? ['#2D1B4E', '#1E3A5F', colors.background] 
@@ -275,7 +261,6 @@ export const CalendarScreen: React.FC = () => {
           </Animatable.View>
         </LinearGradient>
 
-        {/* Calendar */}
         <Animatable.View
           animation="fadeInUp"
           delay={200}
@@ -311,7 +296,6 @@ export const CalendarScreen: React.FC = () => {
           </Card>
         </Animatable.View>
 
-        {/* Legend */}
         <Animatable.View
           animation="fadeIn"
           delay={300}
@@ -356,7 +340,6 @@ export const CalendarScreen: React.FC = () => {
           ))}
         </Animatable.View>
 
-        {/* Monthly Statistics */}
         <Animatable.View
           animation="fadeInUp"
           delay={350}
@@ -400,7 +383,6 @@ export const CalendarScreen: React.FC = () => {
                 </Text>
               </View>
 
-              {/* Perfect Days */}
               <View style={{
                 flex: 1,
                 minWidth: 140,
@@ -427,7 +409,6 @@ export const CalendarScreen: React.FC = () => {
                 </Text>
               </View>
 
-              {/* Total Completed */}
               <View style={{
                 flex: 1,
                 minWidth: 140,
@@ -454,7 +435,6 @@ export const CalendarScreen: React.FC = () => {
                 </Text>
               </View>
 
-              {/* Average Completion */}
               <View style={{
                 flex: 1,
                 minWidth: 140,
@@ -484,7 +464,6 @@ export const CalendarScreen: React.FC = () => {
           </Card>
         </Animatable.View>
 
-        {/* Selected Day Details */}
         <Animatable.View
           animation="fadeInUp"
           delay={400}
@@ -502,7 +481,6 @@ export const CalendarScreen: React.FC = () => {
 
             {selectedDayData ? (
               <>
-                {/* Completion Stats */}
                 <View style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -538,7 +516,6 @@ export const CalendarScreen: React.FC = () => {
                   </Text>
                 </View>
 
-                {/* Message */}
                 <View style={{
                   backgroundColor: `${colors.primary}10`,
                   borderRadius: 12,
@@ -559,7 +536,6 @@ export const CalendarScreen: React.FC = () => {
                   </Text>
                 </View>
 
-                {/* Habits List */}
                 {selectedDayData.habits.length > 0 && (
                   <View style={{ marginTop: 16 }}>
                     <Text style={{
@@ -615,7 +591,6 @@ export const CalendarScreen: React.FC = () => {
           </Card>
         </Animatable.View>
 
-        {/* Weekly Stats */}
         <Animatable.View
           animation="fadeInUp"
           delay={500}
@@ -659,7 +634,6 @@ export const CalendarScreen: React.FC = () => {
                     style={{ alignItems: 'center' }}
                     onPress={() => setSelectedDate(day.date)}
                   >
-                    {/* Completion indicator */}
                     {day.completionRate >= 1 && !day.isFuture && (
                       <Ionicons 
                         name="checkmark-circle" 
@@ -700,7 +674,6 @@ export const CalendarScreen: React.FC = () => {
                       {day.name}
                     </Text>
                     
-                    {/* Show completion count */}
                     {!day.isFuture && day.total > 0 && (
                       <Text style={{
                         fontSize: 10,

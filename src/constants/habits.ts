@@ -25,7 +25,6 @@ export const HABIT_CATEGORIES: HabitCategory[] = [
 ];
 
 export const HABIT_TEMPLATES: HabitTemplate[] = [
-  // Health Habits
   {
     id: 'sleep',
     name: 'Tidur Cukup',
@@ -138,7 +137,6 @@ export const HABIT_TEMPLATES: HabitTemplate[] = [
     ],
   },
   
-  // Productivity Habits
   {
     id: 'discipline',
     name: 'Disiplin',
@@ -176,7 +174,6 @@ export const HABIT_TEMPLATES: HabitTemplate[] = [
     ],
   },
   
-  // Social Habits
   {
     id: 'connection',
     name: 'Koneksi',

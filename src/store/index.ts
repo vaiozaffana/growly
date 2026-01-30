@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { User, Habit, HabitLog, Streak, Reflection, ChatMessage, UserStats } from '../types';
-import { HABIT_TEMPLATES } from '../constants/habits';
 
-// Helper to clear all stores on logout
 export const clearAllStores = () => {
   useAuthStore.getState().logout();
   useHabitStore.getState().reset();

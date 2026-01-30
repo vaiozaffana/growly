@@ -14,10 +14,8 @@ export default function App() {
   const { isDarkMode } = useAppStore();
 
   useEffect(() => {
-    // Initialize app
     const initializeApp = async () => {
       try {
-        // Request notification permissions
         await notificationService.requestPermissions();
         
         // Check for stored auth token
@@ -30,8 +28,7 @@ export default function App() {
         //     login(profile.data, token);
         //   }
         // }
-        
-        // Minimum wait time for splash screen animation to finish
+  
         await new Promise(resolve => setTimeout(resolve, 3000));
       } catch (error) {
         console.error('Failed to initialize app:', error);
@@ -42,12 +39,10 @@ export default function App() {
 
     initializeApp();
 
-    // Set up notification listeners
     const responseListener = notificationService.addNotificationResponseListener(
       (response) => {
         const data = response.notification.request.content.data;
         console.log('Notification tapped:', data);
-        // Handle navigation based on notification type
       }
     );
 

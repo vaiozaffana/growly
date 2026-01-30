@@ -53,7 +53,6 @@ const MainTabNavigator: React.FC = () => {
   const { colors, isDarkMode } = useTheme();
   const insets = useSafeAreaInsets();
   
-  // Calculate safe bottom padding
   const bottomPadding = Math.max(insets.bottom, 10);
   
   return (
@@ -152,7 +151,6 @@ export const AppNavigator: React.FC = () => {
   const { colors } = useTheme();
 
   if (isLoading) {
-    // Show custom splash screen
     return <SplashScreen />;
   }
 

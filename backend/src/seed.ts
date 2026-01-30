@@ -112,7 +112,6 @@ async function seed() {
     console.log('✅ Created habit:', habit.name);
   }
 
-  // Create some demo logs for the past 30 days
   const habits = await prisma.habit.findMany({
     where: { userId: user.id },
   });
@@ -139,7 +138,6 @@ async function seed() {
 
   console.log('✅ Created demo habit logs');
 
-  // Create some demo reflections
   const reflectionTexts = [
     'Hari ini aku berhasil bangun pagi dan meditasi selama 10 menit. Rasanya sangat menyegarkan!',
     'Mencoba untuk lebih jujur dengan perasaanku sendiri. Tidak mudah, tapi aku merasa lebih ringan.',

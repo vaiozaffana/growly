@@ -144,7 +144,6 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
       >
-        {/* Modern Header with Gradient */}
         <LinearGradient
           colors={isDarkMode 
             ? ['#2D1B4E', '#1E3A5F', colors.background] 
@@ -168,7 +167,6 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
           </Animatable.View>
         </LinearGradient>
 
-        {/* Profile Card */}
         <Animatable.View animation="fadeInUp" delay={100} style={{ marginHorizontal: 20, marginTop: -16 }}>
           <Card variant="elevated" style={{ backgroundColor: colors.surface, borderRadius: 28, ...SHADOWS.md }}>
             <View style={{ alignItems: 'center' }}>

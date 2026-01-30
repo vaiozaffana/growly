@@ -37,7 +37,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
   useEffect(() => {
     if (checked) {
-      // Bounce animation when checked
       Animated.sequence([
         Animated.timing(scaleAnim, {
           toValue: 0.9,
@@ -52,7 +51,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         }),
       ]).start();
 
-      // Checkmark animation
       checkmarkRef.current?.bounceIn?.(500);
     }
   }, [checked]);
@@ -77,7 +75,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         style,
       ]}
     >
-      {/* Icon */}
       {icon && (
         <View
           style={{
@@ -94,7 +91,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         </View>
       )}
 
-      {/* Content */}
       <View style={{ flex: 1 }}>
         {label && (
           <Text
@@ -121,7 +117,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         )}
       </View>
 
-      {/* Streak Badge */}
       {showStreak && streak > 0 && (
         <Animatable.View
           animation="bounceIn"
@@ -149,7 +144,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         </Animatable.View>
       )}
 
-      {/* Checkbox */}
       <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
         <View
           style={{

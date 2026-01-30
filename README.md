@@ -2,7 +2,7 @@
 
 **Growly** adalah aplikasi mobile untuk pembentukan kebiasaan sehat dengan refleksi berbasis AI. Aplikasi ini memandu pengguna dalam merefleksikan kebiasaan mereka melalui interaksi dengan AI yang memberikan respons mendalam, personal, dan memotivasi.
 
-![Growly Banner](./assets/splash.png)
+![Growly Banner](./src/assets/image/Growly_Logo.png)
 
 ## ✨ Fitur Utama
 

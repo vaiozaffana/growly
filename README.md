@@ -125,7 +125,7 @@ Dibuat dengan 💚 untuk membantu kamu membangun kebiasaan sehat dan berkembang 
 | Elysia.js | Fast Bun-based web framework |
 | Bun | JavaScript runtime |
 | Prisma ORM | Database management |
-| MySQL | Relational database |
+| PostgreSQL | Relational database |
 | JWT | Authentication |
 | Google Generative AI | AI chat integration |
 
@@ -203,7 +203,7 @@ growly/
 
 - **Node.js** v18+ 
 - **Bun** v1.0+ (untuk backend)
-- **MySQL** v8.0+ (database production-ready)
+- **PostgreSQL** v18.0+ (database production-ready)
 - **Expo CLI**
 - **Android Studio** atau **Xcode** (untuk emulator)
 - **Google Gemini API Key** (untuk AI chat)
@@ -211,7 +211,7 @@ growly/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/growly.git
+git clone https://github.com/vaiozaffana/growly.git
 cd growly
 ```
 
@@ -228,12 +228,12 @@ bun install
 cp .env.example .env
 
 # Edit .env dengan kredensial database Anda:
-# DATABASE_URL="mysql://user:password@localhost:3306/growly"
+# DATABASE_URL="postgresql://user:password@localhost:3306/growly"
 # JWT_SECRET="your-secret-key"
 # GEMINI_API_KEY="your-gemini-api-key"
 
-# Buat database MySQL
-# mysql -u root -p
+# Buat database PostgreSQL
+# psql -u [yourusername]
 # CREATE DATABASE growly;
 # EXIT;
 
